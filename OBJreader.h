@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include"d3dUtil.h"
-#include"rayTracer.h"
+#include"rayTracerUtil.h"
 
 
 class OBJReader {//不用读空行

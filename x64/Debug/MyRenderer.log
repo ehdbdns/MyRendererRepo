@@ -1,48 +1,63 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(503,5): warning MSB8004: Output 目录未以斜杠结尾。  此生成实例将添加斜杠，因为必须有这个斜杠才能正确计算 Output 目录。
+  buddySystem.cpp
+C:\mytinyrenderproj\MyRenderer\MyRenderer\buddySystem.cpp(9,25): warning C4244: “=”: 从“double”转换到“UINT”，可能丢失数据
+C:\mytinyrenderproj\MyRenderer\MyRenderer\buddySystem.cpp(11,22): warning C4018: “<”: 有符号/无符号不匹配
+C:\mytinyrenderproj\MyRenderer\MyRenderer\buddySystem.cpp(12,17): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+C:\mytinyrenderproj\MyRenderer\MyRenderer\buddySystem.cpp(20,9): warning C4244: “参数”: 从“double”转换到“UINT64”，可能丢失数据
+C:\mytinyrenderproj\MyRenderer\MyRenderer\buddySystem.cpp(37,19): warning C4018: “>”: 有符号/无符号不匹配
+C:\mytinyrenderproj\MyRenderer\MyRenderer\buddySystem.cpp(43,38): warning C4018: “<”: 有符号/无符号不匹配
+C:\mytinyrenderproj\MyRenderer\MyRenderer\buddySystem.cpp(44,32): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+C:\mytinyrenderproj\MyRenderer\MyRenderer\buddySystem.cpp(47,56): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+C:\mytinyrenderproj\MyRenderer\MyRenderer\buddySystem.cpp(58,29): warning C4018: “<”: 有符号/无符号不匹配
+C:\mytinyrenderproj\MyRenderer\MyRenderer\buddySystem.cpp(59,20): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+C:\mytinyrenderproj\MyRenderer\MyRenderer\buddySystem.cpp(74,58): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(167,30): warning C4018: “<”: 有符号/无符号不匹配
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(152,38): message : 在编译 类 模板 成员函数“void EST::vector<int>::reserve(int)”时
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(197,20): message : 查看对正在编译的函数 模板 实例化“void EST::vector<int>::reserve(int)”的引用
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(113,25): message : 在编译 类 模板 成员函数“EST::vector<int>::vector(void)”时
+C:\mytinyrenderproj\MyRenderer\MyRenderer\buddySystem.cpp(10,15): message : 查看对正在编译的函数 模板 实例化“EST::vector<int>::vector(void)”的引用
+C:\mytinyrenderproj\MyRenderer\MyRenderer\buddySystem.cpp(10,48): message : 查看对正在编译的 类 模板 实例化“EST::vector<int>”的引用
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(170,39): warning C4018: “<”: 有符号/无符号不匹配
   d3dUtil.cpp
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(167,30): warning C4018: “<”: 有符号/无符号不匹配
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(152,38): message : 在编译 类 模板 成员函数“void EST::vector<DirectX::XMFLOAT3>::reserve(int)”时
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(227,20): message : 查看对正在编译的函数 模板 实例化“void EST::vector<DirectX::XMFLOAT3>::reserve(int)”的引用
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(225,38): message : 在编译 类 模板 成员函数“void EST::vector<DirectX::XMFLOAT3>::push_back(T)”时
+          with
+          [
+              T=DirectX::XMFLOAT3
+          ]
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(324,22): message : 查看对正在编译的函数 模板 实例化“void EST::vector<DirectX::XMFLOAT3>::push_back(T)”的引用
+          with
+          [
+              T=DirectX::XMFLOAT3
+          ]
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(138,28): message : 在编译 类 模板 成员函数“void EST::vector<DirectX::XMFLOAT3>::free(void)”时
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(118,13): message : 查看对正在编译的函数 模板 实例化“void EST::vector<DirectX::XMFLOAT3>::free(void)”的引用
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(113,25): message : 在编译 类 模板 成员函数“EST::vector<DirectX::XMFLOAT3>::vector(void)”时
+C:\mytinyrenderproj\MyRenderer\MyRenderer\d3dUtil.cpp(37,11): message : 查看对正在编译的函数 模板 实例化“EST::vector<DirectX::XMFLOAT3>::vector(void)”的引用
+C:\mytinyrenderproj\MyRenderer\MyRenderer\d3dUtil.h(136,27): message : 查看对正在编译的 类 模板 实例化“EST::vector<DirectX::XMFLOAT3>”的引用
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(170,39): warning C4018: “<”: 有符号/无符号不匹配
   DDSTextureLoader.cpp
+  EST.cpp
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.cpp(64,26): warning C4244: “=”: 从“double”转换到“UINT”，可能丢失数据
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.cpp(138,21): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.cpp(139,18): warning C4018: “>”: 有符号/无符号不匹配
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.cpp(147,15): warning C4018: “>=”: 有符号/无符号不匹配
   MathHelper.cpp
   raytracer.cpp
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(92,34): warning C4244: “=”: 从“double”转换到“UINT”，可能丢失数据
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(184,29): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(185,26): warning C4018: “>”: 有符号/无符号不匹配
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(193,23): warning C4018: “>=”: 有符号/无符号不匹配
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(694,29): warning C4244: “=”: 从“double”转换到“UINT”，可能丢失数据
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(696,26): warning C4018: “<”: 有符号/无符号不匹配
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(697,21): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(705,12): warning C4244: “参数”: 从“double”转换到“UINT64”，可能丢失数据
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(722,23): warning C4018: “>”: 有符号/无符号不匹配
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(728,42): warning C4018: “<”: 有符号/无符号不匹配
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(729,36): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(732,60): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(743,33): warning C4018: “<”: 有符号/无符号不匹配
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(744,24): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(759,62): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(845,26): warning C4018: “<”: 有符号/无符号不匹配
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(863,19): warning C4018: “>”: 有符号/无符号不匹配
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(865,25): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(866,26): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(942,26): warning C4018: “<”: 有符号/无符号不匹配
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(957,19): warning C4018: “>”: 有符号/无符号不匹配
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(959,25): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(960,26): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(1010,19): warning C4018: “>”: 有符号/无符号不匹配
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(1012,25): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(1013,26): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(1796,67): warning C4229: 使用了记时错误: 忽略数据上的修饰符
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(1813,71): warning C4229: 使用了记时错误: 忽略数据上的修饰符
+C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracerUtil.h(112,67): warning C4229: 使用了记时错误: 忽略数据上的修饰符
+C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracerUtil.h(124,71): warning C4229: 使用了记时错误: 忽略数据上的修饰符
 C:\mytinyrenderproj\MyRenderer\MyRenderer\modelReader.h(18,20): warning C4018: “<”: 有符号/无符号不匹配
 C:\mytinyrenderproj\MyRenderer\MyRenderer\modelReader.h(16,9): warning C4101: “a”: 未引用的局部变量
 C:\mytinyrenderproj\MyRenderer\MyRenderer\modelReader.h(43,20): warning C4018: “<”: 有符号/无符号不匹配
 C:\mytinyrenderproj\MyRenderer\MyRenderer\modelReader.h(64,20): warning C4018: “<”: 有符号/无符号不匹配
 C:\mytinyrenderproj\MyRenderer\MyRenderer\modelReader.h(72,20): warning C4018: “<”: 有符号/无符号不匹配
 C:\mytinyrenderproj\MyRenderer\MyRenderer\modelReader.h(84,20): warning C4018: “<”: 有符号/无符号不匹配
-C:\mytinyrenderproj\MyRenderer\MyRenderer\modelReader.h(93,20): warning C4018: “<”: 有符号/无符号不匹配
-C:\mytinyrenderproj\MyRenderer\MyRenderer\modelReader.h(98,21): warning C4018: “<”: 有符号/无符号不匹配
 C:\mytinyrenderproj\MyRenderer\MyRenderer\OBJreader.h(39,1): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(8,1): warning C4005: “GRS_WND_CLASS_NAME”: 宏重定义
+C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(10,1): warning C4005: “GRS_WND_CLASS_NAME”: 宏重定义
 C:\mytinyrenderproj\MyRenderer\MyRenderer\d3dUtil.h(61,1): message : 参见“GRS_WND_CLASS_NAME”的前一个定义
-C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(9,1): warning C4005: “GRS_WND_TITLE”: 宏重定义
+C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(11,1): warning C4005: “GRS_WND_TITLE”: 宏重定义
 C:\mytinyrenderproj\MyRenderer\MyRenderer\d3dUtil.h(62,1): message : 参见“GRS_WND_TITLE”的前一个定义
 C:\mytinyrenderproj\MyRenderer\MyRenderer\tk_objfile.h(208,22): warning C4018: “>=”: 有符号/无符号不匹配
 C:\mytinyrenderproj\MyRenderer\MyRenderer\tk_objfile.h(363,33): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
@@ -53,45 +68,122 @@ C:\mytinyrenderproj\MyRenderer\MyRenderer\tk_objfile.h(397,19): warning C4305: �
 C:\mytinyrenderproj\MyRenderer\MyRenderer\tk_objfile.h(466,25): warning C4018: “<”: 有符号/无符号不匹配
 C:\mytinyrenderproj\MyRenderer\MyRenderer\tk_objfile.h(471,69): warning C4018: “<”: 有符号/无符号不匹配
 C:\mytinyrenderproj\MyRenderer\MyRenderer\tk_objfile.h(656,26): warning C4018: “>=”: 有符号/无符号不匹配
-C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(58,21): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
-C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(59,21): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
-C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(78,25): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
-C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(79,25): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
-C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(133,38): warning C4305: “参数”: 从“double”到“float”截断
-C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(134,38): warning C4305: “参数”: 从“double”到“float”截断
-C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(135,38): warning C4305: “参数”: 从“double”到“float”截断
-C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(795,64): warning C4838: 从“__int64”转换到“int”需要收缩转换
-C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(795,76): warning C4305: “初始化”: 从“__int64”到“int”截断
-C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(795,64): warning C4309: “初始化”: 截断常量值
-C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1103,21): warning C4305: “参数”: 从“double”到“float”截断
-C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1110,47): warning C4305: “参数”: 从“double”到“float”截断
-C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1111,31): warning C4305: “参数”: 从“double”到“float”截断
-C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1113,31): warning C4305: “参数”: 从“double”到“float”截断
-C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1118,60): warning C4305: “初始化”: 从“double”到“float”截断
-C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1707,20): warning C4244: “=”: 从“UINT64”转换到“UINT”，可能丢失数据
-C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1806,76): warning C4305: “初始化”: 从“double”到“float”截断
-C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1832,32): warning C4244: “=”: 从“UINT64”转换到“UINT”，可能丢失数据
-C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1854,29): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
-C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1919,40): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1971,76): warning C4305: “初始化”: 从“double”到“float”截断
-C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1979,27): warning C4305: “参数”: 从“double”到“float”截断
-C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1981,27): warning C4305: “参数”: 从“double”到“float”截断
-C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(2104,32): warning C4244: “=”: 从“UINT64”转换到“UINT”，可能丢失数据
-C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(2110,38): warning C4018: “<”: 有符号/无符号不匹配
-C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(2112,38): warning C4018: “<”: 有符号/无符号不匹配
-C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(2334,38): warning C4018: “<”: 有符号/无符号不匹配
-C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(2339,32): warning C4244: “=”: 从“UINT64”转换到“UINT”，可能丢失数据
-C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(2360,86): warning C4267: “参数”: 从“size_t”转换到“DWORD”，可能丢失数据
-C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1861,30): warning C4101: “front”: 未引用的局部变量
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(294,33): warning C4018: “<”: 有符号/无符号不匹配
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(279,1): message : 在编译 类 模板 成员函数“void EST::vector<int>::reserve(int)”时
-C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(26,17): message : 查看对正在编译的函数 模板 实例化“void EST::vector<int>::reserve(int)”的引用
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(666,21): message : 查看对正在编译的 类 模板 实例化“EST::vector<int>”的引用
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(297,42): warning C4018: “<”: 有符号/无符号不匹配
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(338,34): warning C4018: “<”: 有符号/无符号不匹配
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(333,1): message : 在编译 类 模板 成员函数“void EST::vector<ParallelLight>::memcpyPages(UINT8 *,UINT)”时
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(1324,25): message : 查看对正在编译的函数 模板 实例化“void EST::vector<ParallelLight>::memcpyPages(UINT8 *,UINT)”的引用
-C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1115,58): message : 查看对正在编译的 类 模板 实例化“EST::vector<ParallelLight>”的引用
+C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(63,21): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(64,21): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(83,25): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(84,25): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(138,38): warning C4305: “参数”: 从“double”到“float”截断
+C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(139,38): warning C4305: “参数”: 从“double”到“float”截断
+C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(140,38): warning C4305: “参数”: 从“double”到“float”截断
+C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(852,64): warning C4838: 从“__int64”转换到“int”需要收缩转换
+C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(852,76): warning C4305: “初始化”: 从“__int64”到“int”截断
+C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(852,64): warning C4309: “初始化”: 截断常量值
+C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1164,21): warning C4305: “参数”: 从“double”到“float”截断
+C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1171,47): warning C4305: “参数”: 从“double”到“float”截断
+C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1172,31): warning C4305: “参数”: 从“double”到“float”截断
+C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1174,31): warning C4305: “参数”: 从“double”到“float”截断
+C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1179,60): warning C4305: “初始化”: 从“double”到“float”截断
+C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1608,20): warning C4244: “=”: 从“UINT64”转换到“UINT”，可能丢失数据
+C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1670,32): warning C4244: “=”: 从“UINT64”转换到“UINT”，可能丢失数据
+C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1692,29): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1757,40): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1768,35): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1779,34): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1848,76): warning C4305: “初始化”: 从“double”到“float”截断
+C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1856,27): warning C4305: “参数”: 从“double”到“float”截断
+C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1858,27): warning C4305: “参数”: 从“double”到“float”截断
+C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1934,32): warning C4244: “=”: 从“UINT64”转换到“UINT”，可能丢失数据
+C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1940,38): warning C4018: “<”: 有符号/无符号不匹配
+C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1942,38): warning C4018: “<”: 有符号/无符号不匹配
+C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1973,38): warning C4018: “<”: 有符号/无符号不匹配
+C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1978,32): warning C4244: “=”: 从“UINT64”转换到“UINT”，可能丢失数据
+C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1999,86): warning C4267: “参数”: 从“size_t”转换到“DWORD”，可能丢失数据
+C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(1699,30): warning C4101: “front”: 未引用的局部变量
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(167,30): warning C4018: “<”: 有符号/无符号不匹配
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(152,38): message : 在编译 类 模板 成员函数“void EST::vector<int>::reserve(int)”时
+C:\mytinyrenderproj\MyRenderer\MyRenderer\raytracer.cpp(30,17): message : 查看对正在编译的函数 模板 实例化“void EST::vector<int>::reserve(int)”的引用
+C:\mytinyrenderproj\MyRenderer\MyRenderer\SAHtree.h(48,21): message : 查看对正在编译的 类 模板 实例化“EST::vector<int>”的引用
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(170,39): warning C4018: “<”: 有符号/无符号不匹配
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(214,30): warning C4018: “<”: 有符号/无符号不匹配
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(209,63): message : 在编译 类 模板 成员函数“void EST::vector<uint16_t>::memcpyPages(UINT8 *,UINT)”时
+C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracerUtil.h(152,25): message : 查看对正在编译的函数 模板 实例化“void EST::vector<uint16_t>::memcpyPages(UINT8 *,UINT)”的引用
+  rayTracerUtil.cpp
+C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracerUtil.h(112,67): warning C4229: 使用了记时错误: 忽略数据上的修饰符
+C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracerUtil.h(124,71): warning C4229: 使用了记时错误: 忽略数据上的修饰符
+C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracerUtil.cpp(89,68): warning C4229: 使用了记时错误: 忽略数据上的修饰符
+C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracerUtil.cpp(95,72): warning C4229: 使用了记时错误: 忽略数据上的修饰符
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(167,30): warning C4018: “<”: 有符号/无符号不匹配
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(152,38): message : 在编译 类 模板 成员函数“void EST::vector<DirectX::XMFLOAT3>::reserve(int)”时
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(227,20): message : 查看对正在编译的函数 模板 实例化“void EST::vector<DirectX::XMFLOAT3>::reserve(int)”的引用
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(117,26): message : 在编译 类 模板 成员函数“EST::vector<DirectX::XMFLOAT3>::~vector(void)”时
+C:\mytinyrenderproj\MyRenderer\MyRenderer\d3dUtil.h(139,1): message : 查看对正在编译的函数 模板 实例化“EST::vector<DirectX::XMFLOAT3>::~vector(void)”的引用
+C:\mytinyrenderproj\MyRenderer\MyRenderer\d3dUtil.h(136,27): message : 查看对正在编译的 类 模板 实例化“EST::vector<DirectX::XMFLOAT3>”的引用
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(170,39): warning C4018: “<”: 有符号/无符号不匹配
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(214,30): warning C4018: “<”: 有符号/无符号不匹配
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(209,63): message : 在编译 类 模板 成员函数“void EST::vector<Vertex>::memcpyPages(UINT8 *,UINT)”时
+C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracerUtil.h(166,21): message : 查看对正在编译的函数 模板 实例化“void EST::vector<Vertex>::memcpyPages(UINT8 *,UINT)”的引用
+  ResourseItem.cpp
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(167,30): warning C4018: “<”: 有符号/无符号不匹配
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(152,38): message : 在编译 类 模板 成员函数“void EST::vector<int>::reserve(int)”时
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(227,20): message : 查看对正在编译的函数 模板 实例化“void EST::vector<int>::reserve(int)”的引用
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(113,25): message : 在编译 类 模板 成员函数“EST::vector<int>::vector(void)”时
+C:\mytinyrenderproj\MyRenderer\MyRenderer\ResourseItem.cpp(16,22): message : 查看对正在编译的函数 模板 实例化“EST::vector<int>::vector(void)”的引用
+C:\mytinyrenderproj\MyRenderer\MyRenderer\ResourceItem.h(50,21): message : 查看对正在编译的 类 模板 实例化“EST::vector<int>”的引用
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(170,39): warning C4018: “<”: 有符号/无符号不匹配
+  SAHtree.cpp
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(167,30): warning C4018: “<”: 有符号/无符号不匹配
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(152,38): message : 在编译 类 模板 成员函数“void EST::vector<triangle>::reserve(int)”时
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(197,20): message : 查看对正在编译的函数 模板 实例化“void EST::vector<triangle>::reserve(int)”的引用
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(121,47): message : 在编译 类 模板 成员函数“EST::vector<triangle>::vector(T *,int)”时
+          with
+          [
+              T=triangle
+          ]
+C:\mytinyrenderproj\MyRenderer\MyRenderer\SAHtree.cpp(88,30): message : 查看对正在编译的函数 模板 实例化“EST::vector<triangle>::vector(T *,int)”的引用
+          with
+          [
+              T=triangle
+          ]
+C:\mytinyrenderproj\MyRenderer\MyRenderer\SAHtree.h(36,26): message : 查看对正在编译的 类 模板 实例化“EST::vector<triangle>”的引用
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(170,39): warning C4018: “<”: 有符号/无符号不匹配
+  SegregatedFreeLists.cpp
+C:\mytinyrenderproj\MyRenderer\MyRenderer\SegregatedFreeLists.cpp(21,22): warning C4018: “<”: 有符号/无符号不匹配
+C:\mytinyrenderproj\MyRenderer\MyRenderer\SegregatedFreeLists.cpp(39,15): warning C4018: “>”: 有符号/无符号不匹配
+C:\mytinyrenderproj\MyRenderer\MyRenderer\SegregatedFreeLists.cpp(41,21): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+C:\mytinyrenderproj\MyRenderer\MyRenderer\SegregatedFreeLists.cpp(42,22): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+C:\mytinyrenderproj\MyRenderer\MyRenderer\SegregatedFreeLists.cpp(108,22): warning C4018: “<”: 有符号/无符号不匹配
+C:\mytinyrenderproj\MyRenderer\MyRenderer\SegregatedFreeLists.cpp(123,15): warning C4018: “>”: 有符号/无符号不匹配
+C:\mytinyrenderproj\MyRenderer\MyRenderer\SegregatedFreeLists.cpp(125,21): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+C:\mytinyrenderproj\MyRenderer\MyRenderer\SegregatedFreeLists.cpp(126,22): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+C:\mytinyrenderproj\MyRenderer\MyRenderer\SegregatedFreeLists.cpp(176,15): warning C4018: “>”: 有符号/无符号不匹配
+C:\mytinyrenderproj\MyRenderer\MyRenderer\SegregatedFreeLists.cpp(178,21): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+C:\mytinyrenderproj\MyRenderer\MyRenderer\SegregatedFreeLists.cpp(179,22): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(167,30): warning C4018: “<”: 有符号/无符号不匹配
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(152,38): message : 在编译 类 模板 成员函数“void EST::vector<Microsoft::WRL::ComPtr<ID3D12Heap>>::reserve(int)”时
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(197,20): message : 查看对正在编译的函数 模板 实例化“void EST::vector<Microsoft::WRL::ComPtr<ID3D12Heap>>::reserve(int)”的引用
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(113,25): message : 在编译 类 模板 成员函数“EST::vector<Microsoft::WRL::ComPtr<ID3D12Heap>>::vector(void)”时
+C:\mytinyrenderproj\MyRenderer\MyRenderer\SegregatedFreeLists.cpp(3,35): message : 查看对正在编译的函数 模板 实例化“EST::vector<Microsoft::WRL::ComPtr<ID3D12Heap>>::vector(void)”的引用
+C:\mytinyrenderproj\MyRenderer\MyRenderer\SegregatedFreeLists.h(21,36): message : 查看对正在编译的 类 模板 实例化“EST::vector<Microsoft::WRL::ComPtr<ID3D12Heap>>”的引用
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(170,39): warning C4018: “<”: 有符号/无符号不匹配
+  SSSSComponent.cpp
+C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracerUtil.h(112,67): warning C4229: 使用了记时错误: 忽略数据上的修饰符
+C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracerUtil.h(124,71): warning C4229: 使用了记时错误: 忽略数据上的修饰符
+C:\mytinyrenderproj\MyRenderer\MyRenderer\SSSSComponent.cpp(206,19): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据
+C:\mytinyrenderproj\MyRenderer\MyRenderer\SSSSComponent.cpp(200,13): warning C4101: “hr”: 未引用的局部变量
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(167,30): warning C4018: “<”: 有符号/无符号不匹配
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(152,38): message : 在编译 类 模板 成员函数“void EST::vector<DirectX::XMFLOAT4>::reserve(int)”时
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(197,20): message : 查看对正在编译的函数 模板 实例化“void EST::vector<DirectX::XMFLOAT4>::reserve(int)”的引用
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(254,5): message : 在编译 类 模板 成员函数“EST::vector<DirectX::XMFLOAT4>::vector(EST::vector<DirectX::XMFLOAT4> &)”时
+C:\mytinyrenderproj\MyRenderer\MyRenderer\SSSSComponent.cpp(241,5): message : 查看对正在编译的函数 模板 实例化“EST::vector<DirectX::XMFLOAT4>::vector(EST::vector<DirectX::XMFLOAT4> &)”的引用
+C:\mytinyrenderproj\MyRenderer\MyRenderer\SSSSComponent.cpp(199,68): message : 查看对正在编译的 类 模板 实例化“EST::vector<DirectX::XMFLOAT4>”的引用
+C:\mytinyrenderproj\MyRenderer\MyRenderer\EST.h(170,39): warning C4018: “<”: 有符号/无符号不匹配
+  SVGFComponent.cpp
+C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracerUtil.h(112,67): warning C4229: 使用了记时错误: 忽略数据上的修饰符
+C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracerUtil.h(124,71): warning C4229: 使用了记时错误: 忽略数据上的修饰符
+  TSSSSComponent.cpp
+C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracerUtil.h(112,67): warning C4229: 使用了记时错误: 忽略数据上的修饰符
+C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracerUtil.h(124,71): warning C4229: 使用了记时错误: 忽略数据上的修饰符
+C:\mytinyrenderproj\MyRenderer\MyRenderer\TSSSSComponent.cpp(137,60): warning C4305: “初始化”: 从“double”到“float”截断
   正在生成代码...
-C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracer.h(1859): warning C4715: “APP::createWindow”: 不是所有的控件路径都返回值
+C:\mytinyrenderproj\MyRenderer\MyRenderer\rayTracerUtil.cpp(141): warning C4715: “APP::createWindow”: 不是所有的控件路径都返回值
   MyRenderer.vcxproj -> C:\mytinyrenderproj\MyRenderer\MyRenderer\MyRenderer.exe

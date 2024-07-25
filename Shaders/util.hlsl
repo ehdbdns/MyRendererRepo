@@ -51,7 +51,7 @@ struct ParallelLight
     float3 direction;
     float3 color;
 };
-    struct vertexin
+struct vertexin
 {
     float4 position : POSITION;
     float2 uv : TEXCOORD;
@@ -133,6 +133,10 @@ cbuffer objcb : register(b0)
     int texIndex;
     int matIndex;
 }
+cbuffer SSSS : register(b2)
+{
+    float roughness1;
+}
 float getRandomNum(int2 Index)
 {
     return g_randnums[(Index.x + Index.y * width) % 10000];
@@ -174,8 +178,8 @@ float lambda(float alpha)
 }
 float smithG2(float3 h, float3 l, float3 n, float roughness, float Dotnv, float Dothv)
 {
-    float a1 = dot(n, l) / (roughness * (pow((1 - pow(dot(n, l), 2)), 0.5)));
-    float a2 = Dotnv / (roughness * (pow((1 - pow(Dotnv, 2)), 0.5)));
+    float a1 = dot(n, l) / (roughness * (pow((1 - pow(dot(n, l), 2)), 0.5))+0.001f);
+    float a2 = Dotnv / (roughness * (pow((1 - pow(Dotnv, 2)), 0.5))+0.001f);
     float3 base1 = 1 + lambda(a1) + lambda(a2);
     float3 base2 = Xplus(Dothv) * Xplus(dot(h, l));
     return base2 / base1;
@@ -186,7 +190,7 @@ float3 Rd(float3 d, float r)
 }
 
 
-float4 UniformSampleHemisphere(float2 E,float3 n)
+float4 UniformSampleHemisphere(float2 E, float3 n)
 {
     float Phi = 2 * 3.1415926f * E.x;
     float CosTheta = E.y;
@@ -203,10 +207,10 @@ float4 UniformSampleHemisphere(float2 E,float3 n)
     float3 sampleVec = tangent * H.x + bitangent * H.y + n * H.z; //注意是左乘矩阵
     return float4(normalize(sampleVec), PDF);
 }
-float4 ImportanceSampleFromGGX(float roughness,int2 seed,float3 R)
+float4 ImportanceSampleFromGGX(float roughness, int2 seed, float3 R)
 {
     float randnum1 = getRandomNum(seed);
-    float randnum2 = getRandomNum(int2(seed.y,seed.x));
+    float randnum2 = getRandomNum(int2(seed.y, seed.x));
     float a = roughness * roughness;
     float phi = 2.0f * PI * randnum1;
     float cosTheta = sqrt((1.0f - randnum2) / (1.0f + (a * a - 1.0f) * randnum2));
@@ -218,13 +222,13 @@ float4 ImportanceSampleFromGGX(float roughness,int2 seed,float3 R)
     float3 up = abs(R.z) < 0.999 ? float3(0.0f, 0.0f, 1.0f) : float3(1.0f, 0.0f, 0.0f);
     float3 tangent = normalize(cross(up, R));
     float3 bitangent = cross(R, tangent);
-    float3 sampleVec = tangent * H.x + bitangent * H.y + R * H.z;//将GGX采样结果转换到世界坐标
+    float3 sampleVec = tangent * H.x + bitangent * H.y + R * H.z; //将GGX采样结果转换到世界坐标
     float d = (cosTheta * a - cosTheta) * cosTheta + 1;
     float D = a / (PI * d * d);
-    float PDF = D * cosTheta;//PDF用于蒙特卡洛
+    float PDF = D * cosTheta; //PDF用于蒙特卡洛
     return float4(sampleVec, PDF);
 }
-bool RayIntersectTriangle(float3 pos0, float3 pos1, float3 pos2, ray r, out float2 b1b2,out float tout)
+bool RayIntersectTriangle(float3 pos0, float3 pos1, float3 pos2, ray r, out float2 b1b2, out float tout)
 {
     float3 E1 = pos1 - pos0;
     float3 E2 = pos2 - pos0;
@@ -266,7 +270,7 @@ bool RayIntersectAABBBox(float3 boxCenter, float3 boxExtent, ray r)
         return true;
     return false;
 }
-bool RayIntersectScene(ray r, out MyTriangle outtri, out float2 b1b2,out float tout)
+bool RayIntersectScene(ray r, out MyTriangle outtri, out float2 b1b2, out float tout)
 {
     tout = 100000;
     AABBbox box;
@@ -292,7 +296,7 @@ bool RayIntersectScene(ray r, out MyTriangle outtri, out float2 b1b2,out float t
                             tout = t;
                             b1b2 = b1b2hat;
                         }
-                        intersect= true;
+                        intersect = true;
                     }
                 }
             }
@@ -311,15 +315,15 @@ bool RayIntersectScene(ray r, out MyTriangle outtri, out float2 b1b2,out float t
     }
     return intersect;
 }
-float3 calcGlossyDirectLightFromPolygonalLight(float3 shadingPoint, float3 spNormal,float3 spColor,int2 seed,float3 receiverPos,float roughness)
+float3 calcGlossyDirectLightFromPolygonalLight(float3 shadingPoint, float3 spNormal, float3 spColor, int2 seed, float3 receiverPos, float roughness)
 {
     float randnum1 = getRandomNum(seed);
-    float randnum2 = getRandomNum(seed*seed);
+    float randnum2 = getRandomNum(seed * seed);
     float dx = g_lights[0].Xend - g_lights[0].Xstart;
     float dz = g_lights[0].Zend - g_lights[0].Zstart;
     float3 sampleLightPos = float3(g_lights[0].Xstart + randnum1 * dx, 199.5f, g_lights[0].Zstart + randnum2 * dz);
     float3 posToLight = sampleLightPos - shadingPoint;
-    float3 toLight =sampleLightPos - shadingPoint;
+    float3 toLight = sampleLightPos - shadingPoint;
     float3 ToLightNorm = normalize(toLight);
     float cos1 = max(0, dot(spNormal, ToLightNorm));
     float cos2 = max(0, dot(normalize(g_lights[0].normal), -ToLightNorm));
@@ -334,20 +338,20 @@ float3 calcGlossyDirectLightFromPolygonalLight(float3 shadingPoint, float3 spNor
 }
 #define Rmax 5.0f
 #define sampleNum 5 
-float3 calcTranslucentDirectLightFromPolygonalLightt(float3 shadingPoint, float3 spNormal, float3 spTangent,float3 spColor, int2 seed, float3 F0,float3 d,float3 toEye)
+float3 calcTranslucentDirectLightFromPolygonalLightt(float3 shadingPoint, float3 spNormal, float3 spTangent, float3 spColor, int2 seed, float3 F0, float3 d, float3 toEye)
 {
     float randnum1 = max(0.05f, getRandomNum(seed));
     float randnum2 = max(0.05f, getRandomNum(seed * seed));
     int a = (randnum1 > 0.5f) ? 1 : -1;
-    float importantSampleR = (g_CDF_1.Sample(g_sampler, float2(min(randnum1,0.95f), 0)).xyz * d).x;//重要性采样R
+    float importantSampleR = (g_CDF_1.Sample(g_sampler, float2(min(randnum1, 0.95f), 0)).xyz * d).x; //重要性采样R
     float dx = g_lights[0].Xend - g_lights[0].Xstart;
     float dz = g_lights[0].Zend - g_lights[0].Zstart;
-    float3 sampleLightPos = float3(g_lights[0].Xstart + randnum1 * dx, 199.5f, g_lights[0].Zstart + randnum2 * dz);//均匀采样光源
+    float3 sampleLightPos = float3(g_lights[0].Xstart + randnum1 * dx, 199.5f, g_lights[0].Zstart + randnum2 * dz); //均匀采样光源
     float3 DirectL = float3(0, 0, 0);
     int N = 0;
     for (int i = 0; i < sampleNum; i++)
     {
-        float randAngle = getRandomNum(seed+i) * 2 * PI;
+        float randAngle = getRandomNum(seed + i) * 2 * PI;
         float3 randVector = float3(cos(randAngle), 0, sin(randAngle));
         float3 up = abs(spNormal.z) < 0.999 ? float3(0.0f, 0.0f, 1.0f) : float3(1.0f, 0.0f, 0.0f);
         float3 tangent = normalize(cross(up, spNormal));
@@ -377,7 +381,7 @@ float3 calcTranslucentDirectLightFromPolygonalLightt(float3 shadingPoint, float3
         }
         else
             continue;
-        float3 PDF = 2 * PI * importantSampleR * max(0, dot(spNormal, hitNormal)) *  Rd(d, importantSampleR);
+        float3 PDF = 2 * PI * importantSampleR * max(0, dot(spNormal, hitNormal)) * Rd(d, importantSampleR);
         float3 toLight = sampleLightPos - hitPoint;
         float3 ToLightNorm = normalize(toLight);
         float cos1 = max(0, dot(hitNormal, ToLightNorm));
@@ -385,7 +389,7 @@ float3 calcTranslucentDirectLightFromPolygonalLightt(float3 shadingPoint, float3
         float LengthSquare = toLight.x * toLight.x + toLight.y * toLight.y + toLight.z * toLight.z;
         float3 LightTerm = float3(1.0, 1.0, 1.0) * dot(float3(0, 1.0f, -1.0f), spNormal); //g_lights[0].color * cos1 * cos2 / LengthSquare * g_lights[0].area *100;
         float3 F2Term = SchlickFresnel(F0, hitNormal, float3(0, 1.0f, -1.0f)) * SchlickFresnel(F0, spNormal, toEye);
-        DirectL += LightTerm / PDF * spColor * F2Term * Rd(d, r)/PI;
+        DirectL += LightTerm / PDF * spColor * F2Term * Rd(d, r) / PI;
     }
     DirectL /= N;
     return DirectL;
@@ -421,7 +425,7 @@ float3 calcDirectLightInFirstFrame(float3 shadingPoint, float3 spNormal, float3 
         float cos1 = max(0, dot(spNormal, ToLightNorm));
         float cos2 = max(0, dot(normalize(g_lights[0].normal), -ToLightNorm));
         float LengthSquare = toLight.x * toLight.x + toLight.y * toLight.y + toLight.z * toLight.z;
-        DirectL += spColor/PI * g_lights[0].color * cos1 * cos2 / LengthSquare * g_lights[0].area * 100;
+        DirectL += spColor / PI * g_lights[0].color * cos1 * cos2 / LengthSquare * g_lights[0].area * 100;
     }
     return DirectL / 100.0f;
 }

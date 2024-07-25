@@ -1,10 +1,10 @@
-
+﻿
 #include "d3dUtil.h"
 #include <comdef.h>
 #include <fstream>
-
+std::unordered_map<ID3D12DescriptorHeap*, UINT>HeapOffsetTable;
 using Microsoft::WRL::ComPtr;
-
+HANDLE g_hOutput = 0;
 DxException::DxException(HRESULT hr, const std::wstring& functionName, const std::wstring& filename, int lineNumber) :
     ErrorCode(hr),
     FunctionName(functionName),
@@ -34,7 +34,13 @@ ComPtr<ID3DBlob> d3dUtil::LoadBinary(const std::wstring& filename)
 
     return blob;
 }
-
+meshdata::meshdata() = default;
+meshdata::meshdata(meshdata& d) {
+    vertices.init();
+    indices.init();
+    vertices = d.vertices;
+    indices = d.indices;
+}
 Microsoft::WRL::ComPtr<ID3D12Resource> d3dUtil::CreateDefaultBuffer(
     ID3D12Device* device,
     ID3D12GraphicsCommandList* cmdList,

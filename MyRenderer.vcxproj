@@ -130,19 +130,36 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="buddySystem.cpp" />
     <ClCompile Include="d3dUtil.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
+    <ClCompile Include="EST.cpp" />
     <ClCompile Include="MathHelper.cpp" />
     <ClCompile Include="raytracer.cpp" />
+    <ClCompile Include="rayTracerUtil.cpp" />
+    <ClCompile Include="ResourseItem.cpp" />
+    <ClCompile Include="SAHtree.cpp" />
+    <ClCompile Include="SegregatedFreeLists.cpp" />
+    <ClCompile Include="SSSSComponent.cpp" />
+    <ClCompile Include="SVGFComponent.cpp" />
+    <ClCompile Include="TSSSSComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="buddySystem.h" />
     <ClInclude Include="d3dUtil.h" />
     <ClInclude Include="DDSTextureLoader.h" />
+    <ClInclude Include="EST.h" />
     <ClInclude Include="MathHelper.h" />
     <ClInclude Include="modelReader.h" />
     <ClInclude Include="OBJreader.h" />
-    <ClInclude Include="rayTracer.h" />
+    <ClInclude Include="rayTracerUtil.h" />
+    <ClInclude Include="ResourceItem.h" />
+    <ClInclude Include="SAHtree.h" />
+    <ClInclude Include="SegregatedFreeLists.h" />
+    <ClInclude Include="SSSSComponent.h" />
+    <ClInclude Include="SVGFComponent.h" />
     <ClInclude Include="tk_objfile.h" />
+    <ClInclude Include="TSSSSComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

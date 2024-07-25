@@ -61,10 +61,11 @@ using namespace DirectX;
 #define GRS_WND_CLASS_NAME _T("Game Window Class")
 #define GRS_WND_TITLE   _T("DirectX12 Trigger Sample")
 #define GRS_UPPER(A,B) ((UINT)(((A)+((B)-1))&~(B - 1)))
-
+#include"EST.h"
 #include<string>
 extern const int gNumFrameResources;
-
+extern HANDLE g_hOutput;
+extern std::unordered_map<ID3D12DescriptorHeap*, UINT>HeapOffsetTable;
 inline void d3dSetDebugName(IDXGIObject* obj, const char* name)
 {
     if (obj)
@@ -121,7 +122,65 @@ struct passconstant {
     UINT nFrame;
     UINT curTime;
 };
+struct SSSS {
+    float scale;
+    float alpha;
+    float beta;
+};
+struct SSSSps {
+    float roughness1=0.6f;
+};
+struct meshdata {
+    meshdata();
+    meshdata(meshdata& d);
+    EST::vector<XMFLOAT3> vertices;
+    EST::vector<std::uint16_t> indices;
 
+};
+struct ResourceID {
+    int HeapIndex;
+    int HeapOffset;
+};
+struct buddyID {
+    int level;
+    int index;
+};
+struct Vertex
+{
+    XMFLOAT4 position;
+    XMFLOAT2 uv;
+    XMFLOAT3 normal;
+    XMFLOAT3 TangentU;
+    float AOk = 0;
+    XMFLOAT3 color = XMFLOAT3{ -1,-1,-1 };
+};
+
+struct material {
+    XMFLOAT3 albedo;
+    float roughness;
+    XMFLOAT3 F0;
+};
+struct PolygonalLight {
+    float area;
+    float Xstart;
+    float Xend;
+    float Zstart;
+    float Zend;
+    XMFLOAT3 color;
+    XMFLOAT3 normal;
+};
+struct ParallelLight {
+    XMFLOAT3 direction;
+    XMFLOAT3 color;
+};
+
+struct lastVPmat {
+    XMMATRIX lastVP;
+    XMMATRIX last6VP;
+    UINT nframe;
+    UINT filterNote;
+    float FilterVariance;
+};
 struct objectconstant {
     XMFLOAT4X4 world;
     XMFLOAT4X4 invTworld;
@@ -146,44 +205,44 @@ struct keyframe {
     XMFLOAT3 scale;
     XMFLOAT4 quat;
 };
-struct boneAnimation {
-    int numkeyframe;
-    std::vector<keyframe> keyframes;
-    XMMATRIX interpolation(float time) {
-
-        if (time <= keyframes[0].starttime) {
-            XMVECTOR S = XMLoadFloat3(&keyframes[0].scale);
-            XMVECTOR P = XMLoadFloat3(&keyframes[0].translation);
-            XMVECTOR Q = XMLoadFloat4(&keyframes[0].quat);
-            XMVECTOR zero = XMVectorSet(0, 0, 0, 1.0f);
-            return  XMMatrixAffineTransformation(S, zero, Q, P);
-        }
-        if (time >= keyframes[numkeyframe - 1].starttime) {
-            XMVECTOR S = XMLoadFloat3(&keyframes[numkeyframe - 1].scale);
-            XMVECTOR P = XMLoadFloat3(&keyframes[numkeyframe - 1].translation);
-            XMVECTOR Q = XMLoadFloat4(&keyframes[numkeyframe - 1].quat);
-            XMVECTOR zero = XMVectorSet(0, 0, 0, 1.0f);
-            return  XMMatrixAffineTransformation(S, zero, Q, P);
-        }
-        for (int i = 0;i < numkeyframe;i++) {
-            if (time >= keyframes[i].starttime && time <= keyframes[i + 1].starttime) {
-                float t = (time - keyframes[i].starttime) / (keyframes[i + 1].starttime - keyframes[i].starttime);
-                XMVECTOR S = XMVectorLerp(XMLoadFloat3(&keyframes[i].scale), XMLoadFloat3(&keyframes[i + 1].scale), t);
-                XMVECTOR P = XMVectorLerp(XMLoadFloat3(&keyframes[i].translation), XMLoadFloat3(&keyframes[i + 1].translation), t);
-                XMVECTOR Q = XMQuaternionSlerp(XMLoadFloat4(&keyframes[i].quat), XMLoadFloat4(&keyframes[i + 1].quat), t);
-                XMVECTOR zero = XMVectorSet(0, 0.0f, 0.0f, 1.0f);//旋转轴的所经过的原点
-                return  XMMatrixAffineTransformation(S, zero, Q, P);
-            }
-        }
-    }
-
-};
-struct animationClips {
-    std::string clipname;
-    std::vector<boneAnimation>boneAnimations;
-    int bonenum;
-};
-
+//struct boneAnimation {
+//    int numkeyframe;
+//    std::vector<keyframe> keyframes;
+//    XMMATRIX interpolation(float time) {
+//
+//        if (time <= keyframes[0].starttime) {
+//            XMVECTOR S = XMLoadFloat3(&keyframes[0].scale);
+//            XMVECTOR P = XMLoadFloat3(&keyframes[0].translation);
+//            XMVECTOR Q = XMLoadFloat4(&keyframes[0].quat);
+//            XMVECTOR zero = XMVectorSet(0, 0, 0, 1.0f);
+//            return  XMMatrixAffineTransformation(S, zero, Q, P);
+//        }
+//        if (time >= keyframes[numkeyframe - 1].starttime) {
+//            XMVECTOR S = XMLoadFloat3(&keyframes[numkeyframe - 1].scale);
+//            XMVECTOR P = XMLoadFloat3(&keyframes[numkeyframe - 1].translation);
+//            XMVECTOR Q = XMLoadFloat4(&keyframes[numkeyframe - 1].quat);
+//            XMVECTOR zero = XMVectorSet(0, 0, 0, 1.0f);
+//            return  XMMatrixAffineTransformation(S, zero, Q, P);
+//        }
+//        for (int i = 0;i < numkeyframe;i++) {
+//            if (time >= keyframes[i].starttime && time <= keyframes[i + 1].starttime) {
+//                float t = (time - keyframes[i].starttime) / (keyframes[i + 1].starttime - keyframes[i].starttime);
+//                XMVECTOR S = XMVectorLerp(XMLoadFloat3(&keyframes[i].scale), XMLoadFloat3(&keyframes[i + 1].scale), t);
+//                XMVECTOR P = XMVectorLerp(XMLoadFloat3(&keyframes[i].translation), XMLoadFloat3(&keyframes[i + 1].translation), t);
+//                XMVECTOR Q = XMQuaternionSlerp(XMLoadFloat4(&keyframes[i].quat), XMLoadFloat4(&keyframes[i + 1].quat), t);
+//                XMVECTOR zero = XMVectorSet(0, 0.0f, 0.0f, 1.0f);//旋转轴的所经过的原点
+//                return  XMMatrixAffineTransformation(S, zero, Q, P);
+//            }
+//        }
+//    }
+//
+//};
+//struct animationClips {
+//    std::string clipname;
+//    std::vector<boneAnimation>boneAnimations;
+//    int bonenum;
+//};
+//
 
 
 class d3dUtil
