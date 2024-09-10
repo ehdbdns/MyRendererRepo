@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include"d3dUtil.h"
-#include"rayTracer.h"
+#include"rayTracerUtil.h"
 struct subset {
 	UINT ID;
 	UINT startv;
@@ -86,42 +86,42 @@ public:
 			fin >> boneFamily[i];
 		}
 	}
-	void readAnimationClips(std::ifstream& fin) {
-		animationclips.resize(numAnimationClips);
-		std::string ignore;
-		fin >> ignore;
-		for (int i = 0;i < numAnimationClips;i++) {
-			fin >> ignore;
-			fin >> animationclips[i].clipname;
-			fin >> ignore;
-			animationclips[i].boneAnimations.resize(numBones);
-			for (int j = 0;j < numBones;j++) {
-				int numkf = 0;
-				fin >> ignore >> ignore >> numkf;
-				animationclips[i].boneAnimations[j].numkeyframe = numkf;
-				animationclips[i].boneAnimations[j].keyframes.resize(numkf);
-				fin >> ignore;
-				for (int k = 0;k < numkf;k++) {
-					fin >> ignore;
-					fin >> animationclips[i].boneAnimations[j].keyframes[k].starttime;
-					fin >> ignore;
-					fin >> animationclips[i].boneAnimations[j].keyframes[k].translation.x >>
-						animationclips[i].boneAnimations[j].keyframes[k].translation.y >>
-						animationclips[i].boneAnimations[j].keyframes[k].translation.z;
-					fin >> ignore;
-					fin >> animationclips[i].boneAnimations[j].keyframes[k].scale.x >>
-						animationclips[i].boneAnimations[j].keyframes[k].scale.y >>
-						animationclips[i].boneAnimations[j].keyframes[k].scale.z;
-					fin >> ignore;
-					fin >> animationclips[i].boneAnimations[j].keyframes[k].quat.x >>
-						animationclips[i].boneAnimations[j].keyframes[k].quat.y >>
-						animationclips[i].boneAnimations[j].keyframes[k].quat.z >> animationclips[i].boneAnimations[j].keyframes[k].quat.w;
-				}
-				fin >> ignore;
-			}
-			fin >> ignore;
-		}
-	}
+	//void readAnimationClips(std::ifstream& fin) {
+	//	animationclips.resize(numAnimationClips);
+	//	std::string ignore;
+	//	fin >> ignore;
+	//	for (int i = 0;i < numAnimationClips;i++) {
+	//		fin >> ignore;
+	//		fin >> animationclips[i].clipname;
+	//		fin >> ignore;
+	//		animationclips[i].boneAnimations.resize(numBones);
+	//		for (int j = 0;j < numBones;j++) {
+	//			int numkf = 0;
+	//			fin >> ignore >> ignore >> numkf;
+	//			animationclips[i].boneAnimations[j].numkeyframe = numkf;
+	//			animationclips[i].boneAnimations[j].keyframes.resize(numkf);
+	//			fin >> ignore;
+	//			for (int k = 0;k < numkf;k++) {
+	//				fin >> ignore;
+	//				fin >> animationclips[i].boneAnimations[j].keyframes[k].starttime;
+	//				fin >> ignore;
+	//				fin >> animationclips[i].boneAnimations[j].keyframes[k].translation.x >>
+	//					animationclips[i].boneAnimations[j].keyframes[k].translation.y >>
+	//					animationclips[i].boneAnimations[j].keyframes[k].translation.z;
+	//				fin >> ignore;
+	//				fin >> animationclips[i].boneAnimations[j].keyframes[k].scale.x >>
+	//					animationclips[i].boneAnimations[j].keyframes[k].scale.y >>
+	//					animationclips[i].boneAnimations[j].keyframes[k].scale.z;
+	//				fin >> ignore;
+	//				fin >> animationclips[i].boneAnimations[j].keyframes[k].quat.x >>
+	//					animationclips[i].boneAnimations[j].keyframes[k].quat.y >>
+	//					animationclips[i].boneAnimations[j].keyframes[k].quat.z >> animationclips[i].boneAnimations[j].keyframes[k].quat.w;
+	//			}
+	//			fin >> ignore;
+	//		}
+	//		fin >> ignore;
+	//	}
+	//}
 	void readFileHeader(std::string filename) {
 		std::ifstream fin(filename);
 		int flag = 0;
@@ -142,7 +142,7 @@ public:
 		readIndex(fin);
 		readOffsetMatrix(fin);
 		readBoneFamily(fin);
-		readAnimationClips(fin);
+		//readAnimationClips(fin);
 
 	}
 
@@ -156,5 +156,5 @@ public:
 	EST::vector<std::uint16_t>mindices;
 	EST::vector<XMFLOAT4X4>offsetMatrix;
 	EST::vector<UINT>boneFamily;
-	EST::vector<animationClips> animationclips;
+	//EST::vector<animationClips> animationclips;
 };

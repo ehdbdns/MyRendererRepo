@@ -39,10 +39,10 @@ struct material
 struct PolygonalLight
 {
     float area;
-    float Xstart;
-    float Xend;
-    float Zstart;
-    float Zend;
+    float3 v1;
+    float3 v2;
+    float3 v3;
+    float3 v4;
     float3 color;
     float3 normal;
 };
@@ -51,7 +51,7 @@ struct ParallelLight
     float3 direction;
     float3 color;
 };
-    struct vertexin
+struct vertexin
 {
     float4 position : POSITION;
     float2 uv : TEXCOORD;
@@ -82,6 +82,7 @@ struct vertexout
     float3 skyVec : TEXCOORD1;
 };
 
+
 Texture2D g_tex[9] : register(t0);
 StructuredBuffer<AABBbox> g_boxData : register(t0, space1);
 StructuredBuffer<MyTriangle> g_triangleData : register(t1, space1);
@@ -100,7 +101,9 @@ RWTexture2D<float4> g_irradianceTex : register(u0, space1);
 Texture2D g_stretchMap : register(t13, space1);
 StructuredBuffer<ParallelLight> g_parallelLights : register(t14, space1);
 Texture2D g_shadowMap : register(t15, space1);
+Texture2D g_noise : register(t16, space1);
 Texture2D g_convolveTex[6] : register(t0, space2);
+RWTexture2D<float4> g_Reservoir[8] : register(u0, space3);
 SamplerState g_sampler : register(s0);
 cbuffer passcb : register(b1)
 {
@@ -133,10 +136,28 @@ cbuffer objcb : register(b0)
     int texIndex;
     int matIndex;
 }
-float getRandomNum(int2 Index)
+cbuffer SSSS : register(b2)
 {
-    return g_randnums[(Index.x + Index.y * width) % 10000];
+    float roughness1;
 }
+struct Material
+{
+    bool isGlossy;
+    float3 color;
+    float roughness;
+    float3 F0;
+    
+};
+
+
+float4 getRandomNum(float2 seed)
+{
+    float2 s = seed;
+    float4 ret = g_noise.SampleLevel(g_sampler, s, 0).xyzw;
+    ret = ret * 10.0f - int4(ret * 10);
+    return ret;
+}
+
 int Xplus(float alpha)
 {
     if (alpha > 0)
@@ -174,8 +195,8 @@ float lambda(float alpha)
 }
 float smithG2(float3 h, float3 l, float3 n, float roughness, float Dotnv, float Dothv)
 {
-    float a1 = dot(n, l) / (roughness * (pow((1 - pow(dot(n, l), 2)), 0.5)));
-    float a2 = Dotnv / (roughness * (pow((1 - pow(Dotnv, 2)), 0.5)));
+    float a1 = dot(n, l) / (roughness * (pow((1 - pow(dot(n, l), 2)), 0.5))+0.001f);
+    float a2 = Dotnv / (roughness * (pow((1 - pow(Dotnv, 2)), 0.5))+0.001f);
     float3 base1 = 1 + lambda(a1) + lambda(a2);
     float3 base2 = Xplus(Dothv) * Xplus(dot(h, l));
     return base2 / base1;
@@ -186,7 +207,7 @@ float3 Rd(float3 d, float r)
 }
 
 
-float4 UniformSampleHemisphere(float2 E,float3 n)
+float4 UniformSampleHemisphere(float2 E, float3 n)
 {
     float Phi = 2 * 3.1415926f * E.x;
     float CosTheta = E.y;
@@ -203,10 +224,10 @@ float4 UniformSampleHemisphere(float2 E,float3 n)
     float3 sampleVec = tangent * H.x + bitangent * H.y + n * H.z; //注意是左乘矩阵
     return float4(normalize(sampleVec), PDF);
 }
-float4 ImportanceSampleFromGGX(float roughness,int2 seed,float3 R)
+float4 ImportanceSampleFromGGX(float roughness, float2 seed, float3 R)
 {
     float randnum1 = getRandomNum(seed);
-    float randnum2 = getRandomNum(int2(seed.y,seed.x));
+    float randnum2 = getRandomNum(float2(seed.y, seed.x));
     float a = roughness * roughness;
     float phi = 2.0f * PI * randnum1;
     float cosTheta = sqrt((1.0f - randnum2) / (1.0f + (a * a - 1.0f) * randnum2));
@@ -218,13 +239,13 @@ float4 ImportanceSampleFromGGX(float roughness,int2 seed,float3 R)
     float3 up = abs(R.z) < 0.999 ? float3(0.0f, 0.0f, 1.0f) : float3(1.0f, 0.0f, 0.0f);
     float3 tangent = normalize(cross(up, R));
     float3 bitangent = cross(R, tangent);
-    float3 sampleVec = tangent * H.x + bitangent * H.y + R * H.z;//将GGX采样结果转换到世界坐标
+    float3 sampleVec = tangent * H.x + bitangent * H.y + R * H.z; //将GGX采样结果转换到世界坐标
     float d = (cosTheta * a - cosTheta) * cosTheta + 1;
     float D = a / (PI * d * d);
-    float PDF = D * cosTheta;//PDF用于蒙特卡洛
+    float PDF = D * cosTheta; //PDF用于蒙特卡洛
     return float4(sampleVec, PDF);
 }
-bool RayIntersectTriangle(float3 pos0, float3 pos1, float3 pos2, ray r, out float2 b1b2,out float tout)
+bool RayIntersectTriangle(float3 pos0, float3 pos1, float3 pos2, ray r, out float2 b1b2, out float tout)
 {
     float3 E1 = pos1 - pos0;
     float3 E2 = pos2 - pos0;
@@ -266,7 +287,7 @@ bool RayIntersectAABBBox(float3 boxCenter, float3 boxExtent, ray r)
         return true;
     return false;
 }
-bool RayIntersectScene(ray r, out MyTriangle outtri, out float2 b1b2,out float tout)
+bool RayIntersectScene(ray r, out MyTriangle outtri, out float2 b1b2, out float tout)
 {
     tout = 100000;
     AABBbox box;
@@ -292,7 +313,7 @@ bool RayIntersectScene(ray r, out MyTriangle outtri, out float2 b1b2,out float t
                             tout = t;
                             b1b2 = b1b2hat;
                         }
-                        intersect= true;
+                        intersect = true;
                     }
                 }
             }
@@ -311,18 +332,151 @@ bool RayIntersectScene(ray r, out MyTriangle outtri, out float2 b1b2,out float t
     }
     return intersect;
 }
-float3 calcGlossyDirectLightFromPolygonalLight(float3 shadingPoint, float3 spNormal,float3 spColor,int2 seed,float3 receiverPos,float roughness)
+#define Noisesize 512
+float2 getSeedF2FromSeedInt2(int2 seed,int index){
+    int2 seedInt2 = seed + int2(index % Noisesize, index / Noisesize); //当前像素坐标加上以坐标索引为scale的偏移
+    float2 seedF2 = float2((seedInt2.x % Noisesize) / float(Noisesize), (seedInt2.y % Noisesize) / float(Noisesize));
+    return seedF2;
+}
+float3 BRDF(Material m, float3 toEyeNorm, float3 ToLightNorm, float3 spNormal)
 {
-    float randnum1 = getRandomNum(seed);
-    float randnum2 = getRandomNum(seed*seed);
-    float dx = g_lights[0].Xend - g_lights[0].Xstart;
-    float dz = g_lights[0].Zend - g_lights[0].Zstart;
-    float3 sampleLightPos = float3(g_lights[0].Xstart + randnum1 * dx, 199.5f, g_lights[0].Zstart + randnum2 * dz);
-    float3 posToLight = sampleLightPos - shadingPoint;
-    float3 toLight =sampleLightPos - shadingPoint;
+    if (m.isGlossy)
+    {
+        float3 h = normalize(toEyeNorm + ToLightNorm);
+        float3 F = SchlickFresnel(float3(1.0f, 1.0f, 1.0f), spNormal, h);
+        float G = smithG2(h, ToLightNorm, spNormal, m.roughness, dot(spNormal, toEyeNorm), dot(h, toEyeNorm));
+        float D = GGX(m.roughness, spNormal, h);
+        return G * D * F / (4 * abs(dot(spNormal, ToLightNorm)) * abs(dot(spNormal, toEyeNorm)))+m.color/2;
+
+    }
+    else
+    {
+        return m.color / PI;
+    }
+}
+
+float getMax(float3 s)
+{
+    
+    return max(max(s.x, s.y), s.z);
+
+}
+struct Reservoir
+{
+    
+    float3 samplePos; //tex1
+    float Wsum;
+
+    float3 sampleNorm; //tex2
+    float M;
+
+    float3 sampleColor; //tex3
+    float W;
+
+    bool update(float3 pos, float3 norm, float3 color, float wi, float2 seedF2)
+    {
+        Wsum += wi;
+        M++;
+        if (getRandomNum(seedF2).x < (wi / Wsum))
+        {
+            samplePos = pos;
+            sampleNorm = norm;
+            sampleColor = color;
+            return true;
+        }
+        return false;
+    }
+    void init()
+    {
+        samplePos = float3(0, 0, 0);
+        sampleNorm = float3(0, 0, 0);
+        sampleColor = float3(0, 0, 0);
+        float Wsum = 0;
+        float M = 0;
+        float W = 0;
+    }
+};
+Reservoir
+    RIS(
+    float3 shadingPoint, float3 spNormal, float3 spColor, int M, int2 seed, Material
+    m,
+    float3 ToEyeNorm, float emitterArea,int nframe)
+{
+    Reservoir r;
+    r.init();
+    float samplePhat;
+    for (int i = 0; i < M; i++)
+    {
+        float randnum1;
+        float randnum2;
+        float randnum3;
+        if (i == 0)
+        {
+             randnum1 = getRandomNum(getSeedF2FromSeedInt2(seed, nframe)).r;
+             randnum2 = getRandomNum(getSeedF2FromSeedInt2(seed, nframe)).g;
+             randnum3 = getRandomNum(getSeedF2FromSeedInt2(seed, nframe*3)).b;
+        }
+        else
+        {
+            randnum1 = getRandomNum(getSeedF2FromSeedInt2(seed, nframe)).b;
+            randnum2 = getRandomNum(getSeedF2FromSeedInt2(seed, nframe)).a;
+            randnum3 = getRandomNum(getSeedF2FromSeedInt2(seed, nframe*3)).r;
+        }
+        int lightIndex = randnum3*100;
+        lightIndex = clamp(lightIndex, 0, 100);
+        PolygonalLight l = g_lights[lightIndex];
+        float3 v1tov2 = l.v2 - l.v1;
+        float3 v1tov3 = l.v3 - l.v1;
+        float3 sampleP1 = l.v1 + randnum1 * v1tov2;
+        float3 sampleLightPos = sampleP1 + v1tov3 * randnum2;
+        float3 brdf = BRDF(m, ToEyeNorm, normalize(sampleLightPos - shadingPoint), spNormal);
+        float3 toLight = sampleLightPos - shadingPoint;
+        float3 ToLightNorm = normalize(toLight);
+        float cos1 = max(0, dot(spNormal, ToLightNorm));
+        float cos2 = max(0, dot(normalize(l.normal), -ToLightNorm));
+        float LengthSquare = toLight.x * toLight.x + toLight.y * toLight.y + toLight.z * toLight.z;
+        float phat = brdf * getMax(l.color) *  cos1 * cos2 / LengthSquare;
+        if (r.update(sampleLightPos, l.normal, l.color, phat * emitterArea, getSeedF2FromSeedInt2(seed, i * i + nFrame)))
+        samplePhat = phat;
+        
+    }
+    r.W = r.Wsum / (r.M * samplePhat);
+    return r;
+  
+}
+
+
+
+float3 calcDirectLightUseRIS(float3 shadingPoint, float3 spNormal, float3 spColor, int M, int2 seed, Material m, float3 ToEyeNorm, float emitterArea,int nframe)
+{
+    Reservoir r = RIS(shadingPoint, spNormal, spColor, M, seed, m, ToEyeNorm, emitterArea,nframe);
+    float3 toLight = r.samplePos - shadingPoint;
     float3 ToLightNorm = normalize(toLight);
     float cos1 = max(0, dot(spNormal, ToLightNorm));
-    float cos2 = max(0, dot(normalize(g_lights[0].normal), -ToLightNorm));
+    float cos2 = max(0, dot(normalize(r.sampleNorm), -ToLightNorm));
+    float LengthSquare = toLight.x * toLight.x + toLight.y * toLight.y + toLight.z * toLight.z;
+    float3 brdf = BRDF(m, ToEyeNorm, normalize(r.samplePos - shadingPoint), spNormal);
+    return brdf * r.sampleColor * cos1 * cos2 / LengthSquare * r.W ;
+}
+
+
+
+
+float3 calcGlossyDirectLightFromPolygonalLight(float3 shadingPoint, float3 spNormal, float3 spColor, int2 seed, float3 receiverPos, float roughness)
+{
+    float randnum1 = getRandomNum(getSeedF2FromSeedInt2(seed, 0));
+    float randnum2 = getRandomNum(getSeedF2FromSeedInt2(seed + seed.x, 0));
+    int lightIndex = 100 * randnum1;
+    PolygonalLight l = g_lights[lightIndex];
+    float3 v1tov2 = l.v2 - l.v1;
+    float3 v1tov3 = l.v3 - l.v1;
+    float3 sampleP1 = l.v1 + randnum1 * v1tov2;
+    float3 sampleLightPos = sampleP1 + v1tov3 * randnum2;
+    float3 posToLight = sampleLightPos - shadingPoint;
+    float3 toLight = sampleLightPos - shadingPoint;
+    float3 ToLightNorm = normalize(toLight);
+    float cos1 = max(0, dot(spNormal, ToLightNorm));
+    float cos2 = max(0, dot(normalize(l.normal), -ToLightNorm));
     float LengthSquare = toLight.x * toLight.x + toLight.y * toLight.y + toLight.z * toLight.z;
     float3 toReceiverNorm = normalize(receiverPos - shadingPoint);
     float3 h = normalize(toReceiverNorm + ToLightNorm);
@@ -330,24 +484,25 @@ float3 calcGlossyDirectLightFromPolygonalLight(float3 shadingPoint, float3 spNor
     float G = smithG2(h, ToLightNorm, spNormal, roughness, dot(spNormal, toReceiverNorm), dot(h, toReceiverNorm));
     float D = GGX(roughness, spNormal, h);
     float3 BRDF = G * D * F / (4 * abs(dot(spNormal, ToLightNorm)) * abs(dot(spNormal, toReceiverNorm)));
-    return BRDF * g_lights[0].color * cos1 * cos2 / LengthSquare * g_lights[0].area * 100;
+    return BRDF * l.color * cos1 * cos2 / LengthSquare * l.area * 100;
 }
 #define Rmax 5.0f
 #define sampleNum 5 
-float3 calcTranslucentDirectLightFromPolygonalLightt(float3 shadingPoint, float3 spNormal, float3 spTangent,float3 spColor, int2 seed, float3 F0,float3 d,float3 toEye)
+float3 calcTranslucentDirectLightFromPolygonalLightt(float3 shadingPoint, float3 spNormal, float3 spTangent, float3 spColor, int2 seed, float3 F0, float3 d, float3 toEye)
 {
-    float randnum1 = max(0.05f, getRandomNum(seed));
-    float randnum2 = max(0.05f, getRandomNum(seed * seed));
+    float randnum1 = getRandomNum(getSeedF2FromSeedInt2(seed, 0));
+    float randnum2 = getRandomNum(getSeedF2FromSeedInt2(seed + seed.x, 0));
     int a = (randnum1 > 0.5f) ? 1 : -1;
-    float importantSampleR = (g_CDF_1.Sample(g_sampler, float2(min(randnum1,0.95f), 0)).xyz * d).x;//重要性采样R
-    float dx = g_lights[0].Xend - g_lights[0].Xstart;
-    float dz = g_lights[0].Zend - g_lights[0].Zstart;
-    float3 sampleLightPos = float3(g_lights[0].Xstart + randnum1 * dx, 199.5f, g_lights[0].Zstart + randnum2 * dz);//均匀采样光源
+    float importantSampleR = (g_CDF_1.Sample(g_sampler, float2(min(randnum1, 0.95f), 0)).xyz * d).x; //重要性采样R
+    float3 v1tov2 = g_lights[0].v2 - g_lights[0].v1;
+    float3 v1tov3 = g_lights[0].v3 - g_lights[0].v1;
+    float3 sampleP1 = g_lights[0].v1 + randnum1 * v1tov2;
+    float3 sampleLightPos = sampleP1 + v1tov3 * randnum2;
     float3 DirectL = float3(0, 0, 0);
     int N = 0;
     for (int i = 0; i < sampleNum; i++)
     {
-        float randAngle = getRandomNum(seed+i) * 2 * PI;
+        float randAngle = getRandomNum(seed + i) * 2 * PI;
         float3 randVector = float3(cos(randAngle), 0, sin(randAngle));
         float3 up = abs(spNormal.z) < 0.999 ? float3(0.0f, 0.0f, 1.0f) : float3(1.0f, 0.0f, 0.0f);
         float3 tangent = normalize(cross(up, spNormal));
@@ -377,7 +532,7 @@ float3 calcTranslucentDirectLightFromPolygonalLightt(float3 shadingPoint, float3
         }
         else
             continue;
-        float3 PDF = 2 * PI * importantSampleR * max(0, dot(spNormal, hitNormal)) *  Rd(d, importantSampleR);
+        float3 PDF = 2 * PI * importantSampleR * max(0, dot(spNormal, hitNormal)) * Rd(d, importantSampleR);
         float3 toLight = sampleLightPos - hitPoint;
         float3 ToLightNorm = normalize(toLight);
         float cos1 = max(0, dot(hitNormal, ToLightNorm));
@@ -385,7 +540,7 @@ float3 calcTranslucentDirectLightFromPolygonalLightt(float3 shadingPoint, float3
         float LengthSquare = toLight.x * toLight.x + toLight.y * toLight.y + toLight.z * toLight.z;
         float3 LightTerm = float3(1.0, 1.0, 1.0) * dot(float3(0, 1.0f, -1.0f), spNormal); //g_lights[0].color * cos1 * cos2 / LengthSquare * g_lights[0].area *100;
         float3 F2Term = SchlickFresnel(F0, hitNormal, float3(0, 1.0f, -1.0f)) * SchlickFresnel(F0, spNormal, toEye);
-        DirectL += LightTerm / PDF * spColor * F2Term * Rd(d, r)/PI;
+        DirectL += LightTerm / PDF * spColor * F2Term * Rd(d, r) / PI;
     }
     DirectL /= N;
     return DirectL;
@@ -393,35 +548,19 @@ float3 calcTranslucentDirectLightFromPolygonalLightt(float3 shadingPoint, float3
 
 float3 calcDiffuseDirectLightFromPolygonalLight(float3 shadingPoint, float3 spNormal, float3 spColor, int2 seed)
 {
-    float randnum1 = getRandomNum(seed);
-    float randnum2 = getRandomNum(seed * seed);
-    float dx = g_lights[0].Xend - g_lights[0].Xstart;
-    float dz = g_lights[0].Zend - g_lights[0].Zstart;
-    float3 sampleLightPos = float3(g_lights[0].Xstart + randnum1 * dx, 199.5f, g_lights[0].Zstart + randnum2 * dz);
+    float randnum1 = getRandomNum(getSeedF2FromSeedInt2(seed, 0));
+    float randnum2 = getRandomNum(getSeedF2FromSeedInt2(seed + seed.x, 0));
+    int lightIndex = 100 * randnum1;
+    PolygonalLight l = g_lights[lightIndex];
+    float3 v1tov2 = l.v2 -l.v1;
+    float3 v1tov3 = l.v3 - l.v1;
+    float3 sampleP1 = l.v1 + randnum1 * v1tov2;
+    float3 sampleLightPos = sampleP1 + v1tov3 * randnum2;
     float3 posToLight = sampleLightPos - shadingPoint;
     float3 toLight = sampleLightPos - shadingPoint;
     float3 ToLightNorm = normalize(toLight);
     float cos1 = max(0, dot(spNormal, ToLightNorm));
-    float cos2 = max(0, dot(normalize(g_lights[0].normal), -ToLightNorm));
+    float cos2 = max(0, dot(normalize(l.normal), -ToLightNorm));
     float LengthSquare = toLight.x * toLight.x + toLight.y * toLight.y + toLight.z * toLight.z;
-    return spColor / PI * g_lights[0].color * cos1 * cos2 / LengthSquare * g_lights[0].area * 100;
-}
-float3 calcDirectLightInFirstFrame(float3 shadingPoint, float3 spNormal, float3 spColor, int2 seed)
-{
-    float3 DirectL = float3(0, 0, 0);
-    for (int i = 0; i < 100; i++)
-    {
-        float randnum1 = getRandomNum(seed);
-        float randnum2 = getRandomNum(seed * seed);
-        float dx = g_lights[0].Xend - g_lights[0].Xstart;
-        float dz = g_lights[0].Zend - g_lights[0].Zstart;
-        float3 sampleLightPos = float3(g_lights[0].Xstart + randnum1 * dx, 199.5f, g_lights[0].Zstart + randnum2 * dz);
-        float3 toLight = sampleLightPos - shadingPoint;
-        float3 ToLightNorm = normalize(toLight);
-        float cos1 = max(0, dot(spNormal, ToLightNorm));
-        float cos2 = max(0, dot(normalize(g_lights[0].normal), -ToLightNorm));
-        float LengthSquare = toLight.x * toLight.x + toLight.y * toLight.y + toLight.z * toLight.z;
-        DirectL += spColor/PI * g_lights[0].color * cos1 * cos2 / LengthSquare * g_lights[0].area * 100;
-    }
-    return DirectL / 100.0f;
+    return spColor / PI * l.color * cos1 * cos2 / LengthSquare * l.area * 100;
 }

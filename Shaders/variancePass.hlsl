@@ -12,7 +12,7 @@ SamplerState g_sampler : register(s0);
 float3 calcVarianceWeight(int2 i, int2 j)
 {
     float SigmaN = 128.0f;
-    float wN = pow(max(0, dot(g_normal[i * 2].xyz * 2.0f - 1.0f, g_normal[j * 2].xyz * 2.0f - 1.0f)), SigmaN);
+    float wN = pow(max(0, dot(g_normal[i].xyz * 2.0f - 1.0f, g_normal[j].xyz * 2.0f - 1.0f)), SigmaN);
     return wN;
 }
 [numthreads(16, 16, 1)]

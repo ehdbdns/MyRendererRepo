@@ -155,23 +155,6 @@ float4 PS(vertexout pin) : SV_Target
     float3 toEye = normalize(eyepos - pin.positionW);
     float3 norN = normalize(pin.normal);
     float3 DirectL = calcDiffuseDirectLightFromPolygonalLight(pin.positionW, norN, float3(1.0, 1.0, 1.0), int2(pin.positionH.xy));
-    
-    MyTriangle tri;
-    float2 b1b2;
-    float tout;
-    ray r;
-    r.origin = pin.positionW;
-    r.direction = normalize(-1.0f * toEye - (2 * dot(-1.0f * toEye, norN)) * norN);
-    cylinder cy;
-    cy.center = float3(0, 40, 0);
-    cy.h = 20;
-    cy.r = 10;
-    if (rayClosestHitCylinder(r,cy.center,cy.r,cy.h,tout))
-        return float4(tout/50, 1.0, 1.0, 1.0);
-    if (rayClosestHit(r, float3(40,40,0), cy.r, cy.h))
-        return float4(1.0, 1.0, 1.0, 1.0);
-    if (rayClosestHitSphere(r, float3(0,50,20),40))
-        return float4(1, 1, 1, 1);
-    return float4(float3(tout/50,tout/50,0), 0); //float4(DirectL, 1.0f);
+    return float4(DirectL, 1.0f);
 
 }

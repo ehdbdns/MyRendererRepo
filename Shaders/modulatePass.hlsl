@@ -16,5 +16,5 @@ float4 PS(vertexout pin) : SV_Target
     float4 texcolor = (texIndex >= 0) ? g_tex[texIndex].Sample(g_sampler, pin.uv) : float4(pin.color, 1.0f);
     float2 SSuv = float2((pin.positionH.xy) / float2(width, height));
     float4 irradianceDivPI = g_DirectL.Sample(g_sampler, SSuv)+ g_IndirectL.Sample(g_sampler, SSuv);
-    return irradianceDivPI*texcolor;
+    return irradianceDivPI;
 }

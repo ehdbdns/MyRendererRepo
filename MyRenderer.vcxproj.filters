@@ -27,6 +27,36 @@
     <ClCompile Include="raytracer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="TSSSSComponent.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="rayTracerUtil.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="EST.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SAHtree.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="buddySystem.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SegregatedFreeLists.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourseItem.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SVGFComponent.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SSSSComponent.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ReSTIRComponent.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="d3dUtil.h">
@@ -44,10 +74,37 @@
     <ClInclude Include="OBJreader.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="rayTracer.h">
+    <ClInclude Include="rayTracerUtil.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="tk_objfile.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="TSSSSComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="EST.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SAHtree.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="buddySystem.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SegregatedFreeLists.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceItem.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SVGFComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SSSSComponent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ReSTIRComponent.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

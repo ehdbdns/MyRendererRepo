@@ -18,6 +18,6 @@ float4 PS(vertexout pin) :SV_Target
     float3 toEye = normalize(eyepos - pin.positionW);
     float3 norL = normalize(lightdir);
     float3 norN = normalize(pin.normal);
-    float3 DirectL = calcGlossyDirectLightFromPolygonalLight(pin.positionW, norN, 1.0f, int2(pin.positionH.xy),eyepos,0.2f);
+    float3 DirectL = calcGlossyDirectLightFromPolygonalLight(pin.positionW, norN, 1.0f, int2(pin.positionH.xy+pin.uv),eyepos,0.2f);
     return float4(DirectL, 1.0f);
 }
